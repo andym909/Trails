@@ -1,169 +1,86 @@
 package com.example.trails;
 
-import java.io.IOException;
-
-import android.app.Activity;
-import android.location.Location;
-import android.location.LocationListener;
-import android.media.AudioManager;
-import android.opengl.GLES20;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.support.design.widget.Snackbar;
 import com.wikitude.architect.ArchitectView;
-import com.wikitude.architect.ArchitectView.SensorAccuracyChangeListener;
-
+import java.io.IOException;
 /**
- * Abstract activity which handles live-cycle events.
- * Feel free to extend from this activity when setting up your own AR-Activity
  *
  */
-public abstract class ARViewActivity extends Activity{
+public class ARViewActivity extends AppCompatActivity {
 
-    /**
-     * holds the Wikitude SDK AR-View, this is where camera, markers, compass, 3D models etc. are rendered
-     */
-    protected ArchitectView					architectView;
+    static final String TAG = ARViewActivity.class.getSimpleName();
 
-    /**
-     * sensor accuracy listener in case you want to display calibration hints
-     */
-    protected SensorAccuracyChangeListener	sensorAccuracyListener;
-
-    /**
-     * last known location of the user, used internally for content-loading after user location was fetched
-     */
-    protected Location 						lastKnownLocaton;
-
-    /**
-     * sample location strategy, you may implement a more sophisticated approach too
-     */
-    /**
-     * location listener receives location updates and must forward them to the architectView
-     */
-    protected LocationListener 				locationListener;
-
-    /**
-     * urlListener handling "document.location= 'architectsdk://...' " calls in JavaScript"
-     */
-
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate( final Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-
-        /* pressing volume up/down should cause music volume changes */
-        this.setVolumeControlStream( AudioManager.STREAM_MUSIC );
-
-        /* set samples content view */
-        this.setContentView( this.getContentViewId() );
-
-        this.setTitle( this.getActivityTitle() );
-
-        /* set AR-view for life-cycle notifications etc. */
-        this.architectView = (ArchitectView)this.findViewById( this.getArchitectViewId()  );
-
-        /* pass SDK key if you have one, this one is only valid for this package identifier and must not be used somewhere else */
-
-        /* first mandatory life-cycle notification */
-
-        // set accuracy listener if implemented, you may e.g. show calibration prompt for compass using this listener
-        this.sensorAccuracyListener = this.getSensorAccuracyListener();
-
-        // set urlListener, any calls made in JS like "document.location = 'architectsdk://foo?bar=123'" is forwarded to this listener, use this to interact between JS and native Android activity/fragment
-
-        // register valid urlListener in architectView, ensure this is set before content is loaded to not miss any event
-
-        // listener passed over to locationProvider, any location update is handled here
-        this.locationListener = new LocationListener() {
-
-            @Override
-            public void onStatusChanged( String provider, int status, Bundle extras ) {
-            }
-
-            @Override
-            public void onProviderEnabled( String provider ) {
-            }
-
-            @Override
-            public void onProviderDisabled( String provider ) {
-            }
-
-            @Override
-            public void onLocationChanged( final Location location ) {
-                // forward location updates fired by LocationProvider to architectView, you can set lat/lon from any location-strategy
-                if (location!=null) {
-                    // sore last location as member, in case it is needed somewhere (in e.g. your adjusted project)
-                    ARViewActivity.this.lastKnownLocaton = location;
-                    if ( ARViewActivity.this.architectView != null ) {
-                        // check if location has altitude at certain accuracy level & call right architect method (the one with altitude information)
-                        if ( location.hasAltitude() && location.hasAccuracy() && location.getAccuracy()<7) {
-                            ARViewActivity.this.architectView.setLocation( location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy() );
-                        } else {
-                            ARViewActivity.this.architectView.setLocation( location.getLatitude(), location.getLongitude(), location.hasAccuracy() ? location.getAccuracy() : 1000 );
-                        }
-                    }
-                }
-            }
-        };
-
-        // locationProvider used to fetch user position
-
-    }
+    private ArchitectView architectView;
 
     @Override
-    protected void onPostCreate( final Bundle savedInstanceState ) {
-        super.onPostCreate( savedInstanceState );
+    protected void onCreate(Bundle savedInstanceState) {
 
-        if ( this.architectView != null ) {
 
-            // call mandatory live-cycle method of architectView
-            this.architectView.onPostCreate();
-
-            try {
-                // load content via url in architectView, ensure '<script src="architect://architect.js"></script>' is part of this HTML file, have a look at wikitude.com's developer section for API references
-                this.architectView.load( this.getARchitectWorldPath() );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_arview);
 
 
 
-            } catch (IOException e1) {
-                e1.printStackTrace();
+        this.architectView = (ArchitectView)this.findViewById(R.id.architectView);
+        if(ActivityCompat.checkSelfPermission(ARViewActivity.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED){
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(ARViewActivity.this,
+                    Manifest.permission.CAMERA)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                Log.i(TAG,
+                        "Displaying camera permission rationale to provide additional context.");
+                Snackbar.make(architectView, "Camera permission is needed to show the camera preview.",
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ActivityCompat.requestPermissions(ARViewActivity.this,
+                                        new String[]{Manifest.permission.CAMERA,Manifest.permission.BLUETOOTH},
+                                        0);
+                            }
+                        })
+                        .show();
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        0);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
             }
+        }else{
+            loadArchitectView();
         }
+
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onResume() {
 
-        // call mandatory live-cycle method of architectView
-        if ( this.architectView != null ) {
+        try{
+            super.onResume();
+
             this.architectView.onResume();
 
-            // register accuracy listener in architectView, if set
-            if (this.sensorAccuracyListener!=null) {
-                this.architectView.registerSensorAccuracyChangeListener( this.sensorAccuracyListener );
-            }
+        }catch (NullPointerException e){
         }
-
-        // tell locationProvider to resume, usually location is then (again) fetched, so the GPS indicator appears in status bar
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // call mandatory live-cycle method of architectView
-        if (this.architectView != null) {
-            this.architectView.onPause();
-
-            // unregister accuracy listener in architectView, if set
-            if (this.sensorAccuracyListener != null) {
-                this.architectView.unregisterSensorAccuracyChangeListener(this.sensorAccuracyListener);
-            }
-        }
-
-        // tell locationProvider to pause, usually location is then no longer fetched, so the GPS indicator disappears in status bar
     }
 
     @Override
@@ -173,73 +90,65 @@ public abstract class ARViewActivity extends Activity{
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
 
-        // call mandatory live-cycle method of architectView
-        if ( this.architectView != null ) {
-            this.architectView.onDestroy();
+        try{
+            super.onDestroy();
+        }catch (NullPointerException e){
         }
     }
 
     @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        if ( this.architectView != null ) {
-            this.architectView.onLowMemory();
+    protected void onPause() {
+        try{
+            super.onPause();
+
+            this.architectView.onResume();
+            this.architectView.onPause();
+
+        }catch (NullPointerException e){
+
         }
     }
 
-    /**
-     * title shown in activity
-     * @return
-     */
-    public abstract String getActivityTitle();
-
-    /**
-     * path to the architect-file (AR-Experience HTML) to launch
-     * @return
-     */
-    public abstract String getARchitectWorldPath();
-
-    /**
-     * url listener fired once e.g. 'document.location = "architectsdk://foo?bar=123"' is called in JS
-     * @return
-     */
-
-
-    /**
-     * @return layout id of your layout.xml that holds an ARchitect View, e.g. R.layout.camview
-     */
-    public abstract int getContentViewId();
-
-    /**
-     * @return Wikitude SDK license key, checkout www.wikitude.com for details
-     */
-    public abstract String getWikitudeSDKLicenseKey();
-
-    /**
-     * @return layout-id of architectView, e.g. R.id.architectView
-     */
-    public abstract int getArchitectViewId();
-
-    /**
-     *
-     * @return Implementation of a Location
-     */
-
-
-    /**
-     * @return Implementation of Sensor-Accuracy-Listener. That way you can e.g. show prompt to calibrate compass
-     */
-    public abstract ArchitectView.SensorAccuracyChangeListener getSensorAccuracyListener();
-
-    /**
-     * helper to check if video-drawables are supported by this device. recommended to check before launching ARchitect Worlds with videodrawables
-     * @return true if AR.VideoDrawables are supported, false if fallback rendering would apply (= show video fullscreen)
-     */
-    public static final boolean isVideoDrawablesSupported() {
-        String extensions = GLES20.glGetString( GLES20.GL_EXTENSIONS );
-        return extensions != null && extensions.contains( "GL_OES_EGL_image_external" ) && android.os.Build.VERSION.SDK_INT >= 14 ;
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 0: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    loadArchitectView();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void loadArchitectView() {
+
+
+        this.architectView.onPostCreate();
+        try {
+            this.architectView.load("index.html");
+        }catch (IOException e){
+
+        }
+
+        this.architectView.callJavascript("loadLogin()");
+        this.architectView.callJavascript("loadWelcome()");
+    }
 }
