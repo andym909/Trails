@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
+import com.wikitude.common.startup.StartupConfiguration;
 
 import java.io.IOException;
 
@@ -109,7 +111,9 @@ public class SimpleAR extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        //loadArchitectView();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -135,7 +139,13 @@ public class SimpleAR extends AppCompatActivity {
     }
 
     private void loadArchitectView() {
-        //this.architectView.onPostCreate();
+
+        final ArchitectStartupConfiguration startupConfiguration = new ArchitectStartupConfiguration();
+        startupConfiguration.setLicenseKey(getApplicationContext().getString(R.string.wikitude_trial_license_key));
+
+        this.architectView.onCreate(startupConfiguration);
+
+        this.architectView.onPostCreate();
         try {
             this.architectView.load("index.html");
         } catch (IOException e) {
