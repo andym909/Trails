@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
-import com.wikitude.common.startup.StartupConfiguration;
 
 import java.io.IOException;
-
 
 public class SimpleAR extends AppCompatActivity {
 
@@ -30,7 +28,7 @@ public class SimpleAR extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_ar);
 
-        this.architectView = (ArchitectView)this.findViewById(R.id.architectView);
+        this.architectView = (ArchitectView) this.findViewById(R.id.architectView);
 
         if(ActivityCompat.checkSelfPermission(SimpleAR.this,
                 Manifest.permission.CAMERA)
@@ -151,8 +149,8 @@ public class SimpleAR extends AppCompatActivity {
         this.architectView.onPostCreate();
         try {
             this.architectView.load("index.html");
-        } catch (IOException e) {
-
+        }
+            catch (IOException e) {
         }
 
         //this.architectView.callJavascript("loadLogin()");

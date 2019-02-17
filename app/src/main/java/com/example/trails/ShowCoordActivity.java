@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationListener;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,21 +24,9 @@ public class ShowCoordActivity extends AppCompatActivity /*implements LocationLi
         double y;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_coord);
-        Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView xText = findViewById(R.id.xText);
         final TextView yText = findViewById(R.id.yText);
         String coords;
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //make location manager
         final LocationManager locationManager = (LocationManager)
