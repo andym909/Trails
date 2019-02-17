@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openARview(View view) {
-        Intent intent = new Intent(this, SimpleAR.class);
+        Intent intent = new Intent(this, ShowCoordActivity.class);
         startActivity(intent);
     }
 }
