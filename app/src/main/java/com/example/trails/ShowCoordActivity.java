@@ -21,11 +21,13 @@ import com.wikitude.tools.location.LocationService;
 public class ShowCoordActivity extends AppCompatActivity /*implements LocationListener*/{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        double x;
+        double y;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_coord);
         Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView xText = findViewById(R.id.xText);
-        TextView yText = findViewById(R.id.yText);
+        final TextView yText = findViewById(R.id.yText);
         String coords;
         setSupportActionBar(toolbar);
 
@@ -54,7 +56,8 @@ public class ShowCoordActivity extends AppCompatActivity /*implements LocationLi
         final LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                xText.setText(location.toString());
+                xText.setText("X: " + Double.toString(location.getLatitude()));
+                yText.setText("Y: " + Double.toString(location.getLongitude()));
             }
 
             @Override
