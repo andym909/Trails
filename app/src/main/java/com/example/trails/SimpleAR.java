@@ -2,12 +2,15 @@ package com.example.trails;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
@@ -152,7 +155,8 @@ public class SimpleAR extends AppCompatActivity {
 
         }
 
-        this.architectView.callJavascript("loadLogin()");
-        this.architectView.callJavascript("loadWelcome()");
+        //this.architectView.callJavascript("loadLogin()");
+        //this.architectView.callJavascript("loadWelcome()");
+        this.architectView.callJavascript("this.loadPoisFromJsonData");
     }
 }
