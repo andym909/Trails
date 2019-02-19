@@ -24,8 +24,17 @@ public class Trail {
         return list;
     }
 
+    public String toString() {
+        String str = "";
+        Node n;
+        for(int i=0; i<points.size(); i++) {
+            n = points.get(i);
+            str += "lat"+i+": "+n.latitude+"\n";
+            str += "long"+i+": "+n.longitude+"\n";
+        }
+        return str;
+    }
 
-    
     public class Node {
         Timestamp time;
         double longitude;
