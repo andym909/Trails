@@ -3,7 +3,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 public class Trail {
 
-    private ArrayList<Node> points;
+    public ArrayList<Node> points = new ArrayList<Node>();
 
     public void addNode(double lon, double lat) {
         Node n = new Node(lon, lat);
