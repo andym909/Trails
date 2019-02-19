@@ -14,6 +14,10 @@ import android.widget.TextView;
 import com.wikitude.tools.location.LocationService;
 
 public class ShowCoordActivity extends AppCompatActivity /*implements LocationListener*/{
+
+    boolean recording = false;
+    Trail newTrail = new Trail();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         double x;
@@ -22,7 +26,9 @@ public class ShowCoordActivity extends AppCompatActivity /*implements LocationLi
         setContentView(R.layout.activity_show_coord);
         final TextView xText = findViewById(R.id.xText);
         final TextView yText = findViewById(R.id.yText);
+        final TextView printTrail = findViewById(R.id.print_trail);
         String coords;
+
 
         //make location manager
         final LocationManager locationManager = (LocationManager)
@@ -39,6 +45,10 @@ public class ShowCoordActivity extends AppCompatActivity /*implements LocationLi
         final LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                if(recording)
+                    newTrail.addNode(location.getLongitude(), location.getLatitude());
+                else
+                    printTrail.setText(newTrail.toString());
                 xText.setText("X: " + Double.toString(location.getLatitude()));
                 yText.setText("Y: " + Double.toString(location.getLongitude()));
             }

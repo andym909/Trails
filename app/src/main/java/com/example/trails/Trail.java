@@ -1,3 +1,4 @@
+package com.example.trails;;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 public class Trail {
@@ -26,7 +27,7 @@ public class Trail {
 
 
     
-    public class Node {
+    public static class Node {
         Timestamp time;
         double longitude;
         double latitude;
