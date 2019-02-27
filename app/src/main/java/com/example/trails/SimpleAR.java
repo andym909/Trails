@@ -2,10 +2,12 @@ package com.example.trails;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
+import com.wikitude.tools.location.LocationService;
 
 import java.io.IOException;
 
@@ -22,6 +25,9 @@ public class SimpleAR extends AppCompatActivity {
     static final String TAG = SimpleAR.class.getSimpleName();
 
     private ArchitectView architectView; // = new ArchitectView(SimpleAR.this.getApplicationContext());
+
+    boolean recording = false;
+    Trail newTrail = new Trail();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,57 @@ public class SimpleAR extends AppCompatActivity {
         }else{
             loadArchitectView();
         }
+
+        double x;
+        double y;
+
+        final TextView xText = findViewById(R.id.xText);
+        final TextView yText = findViewById(R.id.yText);
+        final TextView printTrail = findViewById(R.id.print_trail);
+        String coords;
+
+
+        //make location manager
+        final LocationManager locationManager = (LocationManager)
+                getSystemService(this.LOCATION_SERVICE); //might wanna do this
+
+        //check if gps
+        ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  }, LocationService.CONTEXT_INCLUDE_CODE
+            );
+        }
+
+        final LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                if(recording)
+                    newTrail.addNode(location.getLongitude(), location.getLatitude());
+                else
+                    printTrail.setText(newTrail.toString());
+                xText.setText("X: " + Double.toString(location.getLatitude()));
+                yText.setText("Y: " + Double.toString(location.getLongitude()));
+                architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAccuracy());
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+        locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
     }
 
     @Override
@@ -157,4 +214,9 @@ public class SimpleAR extends AppCompatActivity {
         //this.architectView.callJavascript("loadWelcome()");
         this.architectView.callJavascript("this.loadPoisFromJsonData");
     }
+
+    public void startRecording(View view) {
+        recording = !recording;
+    }
+
 }

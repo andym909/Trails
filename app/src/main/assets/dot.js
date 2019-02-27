@@ -24,7 +24,7 @@ var World = {
             defined for multiple targets. A target can be the camera, the radar or a direction indicator. Both the
             radar and direction indicators will be covered in more detail in later examples.
         */
-        var markerLocation = new AR.GeoLocation(40.5972131, -75.5111692);
+        var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
         var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 2.5, {
             zOrder: 0,
             opacity: 1.0
@@ -67,9 +67,9 @@ var World = {
             /* Creates a poi object with a random location near the user's location. */
             var poiData = {
                 "id": 1,
-                "longitude": (lon + (Math.random() / 5 - 0.1)),
-                "latitude": (lat + (Math.random() / 5 - 0.1)),
-                "altitude": 100.0
+                "longitude": lon,
+                "latitude": lat,
+                "altitude": alt
             };
 
             World.loadPoisFromJsonData(poiData);

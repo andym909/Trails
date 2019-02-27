@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Trails</string>
     <string name="dot_in_spot">Dot in a Spot</string>
-    <string name="start_stop">Start Stop</string>
+    <string name="start_stop">Start/Stop</string>
     <string name="wikitude_trial_license_key">zkFlQpOnzq+15CezUt2W4G/5wwqyMW5RjTTuAfwg2/VfMgfP1B+tbvMrkjhP4UI5wXeI47+0h/VCAGPfGxIp8kK/43nuBqTSYP6mlsvKh/Oxk7LJ3Cz6Qo1vl/glaqQ0GTGwZyliJYN1yCnJ6aBAqf3Bxt6U7E5Ehr/LXgYoM8ZTYWx0ZWRfX/U51g/vw5ASQrPtSCzhEuDy0qK359FEDKsZUBQJaMrCbeSmjDzLAQ0+augHIoP7ia5vYOkRIMr8bzXqaJGA+RF9P5O/Pw6rTBH+EHgvXpG5H5wNfnVqPiGT31kmIREO54YX2bQaxukUv3K/2vRok9hyQhWkefR0R6RVHlMuq5RXmb9ZjtQ/0mlRz83lbLGXMS3f3usp7hKlJe43zCkVbha94vc1gNkDwDP+WJflr673WbNs6CxHWol1tI4f2i6Nz29zOa3XdIi3FrztZRtG4RqFZ/oyY6GBg80yRxhd5ju60Iq0TN2SOMN3NiDw+qSu7sJU7PEWx0zIgjB236XQxtmfTNxM7GrApKPm0XTh47Ye0AN11dGeAbl8Oo0PU8QNb7qxoYaxrsPs3FLJ2ly4ZfP0Xn0m+dpNkdHoTC+n8KLvytLIXNrRA6mUrKDvILqMuCfqLjDOmxeyDIctPUniRuUBFOiyoTQyNrccI2j2WP9KQoxlL5vsPQXs9U4IASAxmOm+0iwhFoaoSgbRNAnR93W+FK+kriRaw9yPdcD0HisemEWXJ407fe0=</string>
     <string name="title_activity_show_coord">ShowCoordActivity</string>
     <string name="print_trail">Print Trail</string>
