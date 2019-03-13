@@ -1,4 +1,4 @@
-package com.example.trails;;
+package com.example.trails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 public class Trail {

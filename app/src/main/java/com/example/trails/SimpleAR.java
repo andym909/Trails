@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
@@ -34,7 +36,19 @@ public class SimpleAR extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_ar);
 
-        this.architectView = (ArchitectView) this.findViewById(R.id.architectView);
+        //this.architectView = (ArchitectView) this.findViewById(R.id.architectView);
+        final ArchitectStartupConfiguration config = new ArchitectStartupConfiguration(); // Creates a config with its default values.
+//        config.setLicenseKey(getString(R.string.wikitude_trial_license_key)); // Has to be set, to get a trial license key visit http://www.wikitude.com/developer/licenses.
+//        config.setCameraPosition(sampleData.getCameraPosition());       // The default camera is the first camera available for the system.
+//        config.setCameraResolution(sampleData.getCameraResolution());   // The default resolution is 640x480.
+//        config.setCameraFocusMode(sampleData.getCameraFocusMode());     // The default focus mode is continuous focusing.
+//        config.setCamera2Enabled(sampleData.isCamera2Enabled());        // The camera2 api is disabled by default (old camera api is used).
+//        config.setFeatures(sampleData.getArFeatures());                 // This tells the ArchitectView which AR-features it is going to use, the default is all of them.
+//
+//        architectView = new ArchitectView(this);
+//        architectView.onCreate(config); // create ArchitectView with configuration
+
+        setContentView(architectView);
 
         if(ActivityCompat.checkSelfPermission(SimpleAR.this,
                 Manifest.permission.CAMERA)
@@ -43,7 +57,7 @@ public class SimpleAR extends AppCompatActivity {
             if (ActivityCompat.shouldShowRequestPermissionRationale(SimpleAR.this,
                     Manifest.permission.CAMERA)) {
 
-                // Show an expanation to the user *asynchronously* -- don't block
+                // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
 
@@ -106,7 +120,7 @@ public class SimpleAR extends AppCompatActivity {
                     printTrail.setText(newTrail.toString());
                 xText.setText("X: " + Double.toString(location.getLatitude()));
                 yText.setText("Y: " + Double.toString(location.getLongitude()));
-                architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAccuracy());
+                architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude());
             }
 
             @Override
@@ -167,9 +181,22 @@ public class SimpleAR extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        //loadArchitectView();
+        architectView.onPostCreate();
+
+        try {
+            /*
+             * Loads the AR-Experience, it may be a relative path from assets,
+             * an absolute path (file://) or a server url.
+             *
+             * To get notified once the AR-Experience is fully loaded,
+             * an ArchitectWorldLoadedListener can be registered.
+             */
+            architectView.load("app/src/main/assets/index.html");
+        } catch (IOException e) {
+            Log.e(TAG, "Exception while loading arExperience ");
+        }
     }
 
 
