@@ -45,8 +45,8 @@ public class SimpleAR extends AppCompatActivity {
 //        config.setCamera2Enabled(sampleData.isCamera2Enabled());        // The camera2 api is disabled by default (old camera api is used).
 //        config.setFeatures(sampleData.getArFeatures());                 // This tells the ArchitectView which AR-features it is going to use, the default is all of them.
 //
-//        architectView = new ArchitectView(this);
-//        architectView.onCreate(config); // create ArchitectView with configuration
+        architectView = new ArchitectView(this);
+        architectView.onCreate(config); // create ArchitectView with configuration
 
         setContentView(architectView);
 
@@ -183,7 +183,7 @@ public class SimpleAR extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        architectView.onPostCreate();
+        //this.architectView.onPostCreate();
 
         try {
             /*
@@ -193,7 +193,7 @@ public class SimpleAR extends AppCompatActivity {
              * To get notified once the AR-Experience is fully loaded,
              * an ArchitectWorldLoadedListener can be registered.
              */
-            architectView.load("app/src/main/assets/index.html");
+            this.architectView.load("app/src/main/assets/index.html");
         } catch (IOException e) {
             Log.e(TAG, "Exception while loading arExperience ");
         }
@@ -227,9 +227,7 @@ public class SimpleAR extends AppCompatActivity {
 
         final ArchitectStartupConfiguration startupConfiguration = new ArchitectStartupConfiguration();
         startupConfiguration.setLicenseKey(getApplicationContext().getString(R.string.wikitude_trial_license_key));
-
         this.architectView.onCreate(startupConfiguration);
-
         this.architectView.onPostCreate();
         try {
             this.architectView.load("index.html");
