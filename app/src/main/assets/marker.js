@@ -14,7 +14,7 @@ var World = {
             reality view. This sample loads an AR.ImageResource when the World variable was defined. It will be
             reused for each marker that we will create afterwards.
         */
-        World.markerDrawableIdle = new AR.ImageResource("assets/BORGE.png", {
+        World.markerDrawableIdle = new AR.ImageResource("BORGE.png", {
             onError: World.onError
         });
 
