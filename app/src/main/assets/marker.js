@@ -2,12 +2,12 @@
 var World = {
     /* True once data was fetched. */
     initiallyLoadedData: false,
-    console.log(test);
+
     /* pOI-Marker asset. */
     markerDrawableIdle: null,
 
     /* Called to inject new POI data. */
-    loadPoisFromJsonData: function loadPoisFromJsonDataFn() {
+    loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
 
         /*
             The example Image Recognition already explained how images are loaded and displayed in the augmented
@@ -67,10 +67,9 @@ var World = {
             /* Creates a poi object with a random location near the user's location. */
             var poiData = {
                 "id": 1,
-                "longitude": lon,
-                "latitude": lat,
-                "altitude": alt
-                console.log(lon, lat, alt);
+                "longitude": (lon + (Math.random() / 5 - 0.1)),
+                "latitude": (lat + (Math.random() / 5 - 0.1)),
+                "altitude": 100.0
             };
 
             World.loadPoisFromJsonData(poiData);
@@ -89,5 +88,3 @@ var World = {
     location updates will be received.
 */
 AR.context.onLocationChanged = World.locationChanged;
-
-World.init();
