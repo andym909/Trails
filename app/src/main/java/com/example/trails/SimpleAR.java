@@ -38,13 +38,14 @@ public class SimpleAR extends AppCompatActivity {
 
         //this.architectView = (ArchitectView) this.findViewById(R.id.architectView);
         final ArchitectStartupConfiguration config = new ArchitectStartupConfiguration(); // Creates a config with its default values.
-//        config.setLicenseKey(getString(R.string.wikitude_trial_license_key)); // Has to be set, to get a trial license key visit http://www.wikitude.com/developer/licenses.
-//        config.setCameraPosition(sampleData.getCameraPosition());       // The default camera is the first camera available for the system.
-//        config.setCameraResolution(sampleData.getCameraResolution());   // The default resolution is 640x480.
-//        config.setCameraFocusMode(sampleData.getCameraFocusMode());     // The default focus mode is continuous focusing.
-//        config.setCamera2Enabled(sampleData.isCamera2Enabled());        // The camera2 api is disabled by default (old camera api is used).
-//        config.setFeatures(sampleData.getArFeatures());                 // This tells the ArchitectView which AR-features it is going to use, the default is all of them.
-//
+        config.setLicenseKey(getString(R.string.wikitude_trial_license_key)); // Has to be set, to get a trial license key visit http://www.wikitude.com/developer/licenses.
+/*
+        config.setCameraPosition(sampleData.getCameraPosition());       // The default camera is the first camera available for the system.
+        config.setCameraResolution(sampleData.getCameraResolution());   // The default resolution is 640x480.
+        config.setCameraFocusMode(sampleData.getCameraFocusMode());     // The default focus mode is continuous focusing.
+        config.setCamera2Enabled(sampleData.isCamera2Enabled());        // The camera2 api is disabled by default (old camera api is used).
+        config.setFeatures(sampleData.getArFeatures());                 // This tells the ArchitectView which AR-features it is going to use, the default is all of them./
+*/
         architectView = new ArchitectView(this);
         architectView.onCreate(config); // create ArchitectView with configuration
 
@@ -114,13 +115,16 @@ public class SimpleAR extends AppCompatActivity {
         final LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if(recording)
-                    newTrail.addNode(location.getLongitude(), location.getLatitude());
-                else
-                    printTrail.setText(newTrail.toString());
-                xText.setText("X: " + Double.toString(location.getLatitude()));
-                yText.setText("Y: " + Double.toString(location.getLongitude()));
-                architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude());
+                //if(recording)
+                //    newTrail.addNode(location.getLongitude(), location.getLatitude());
+                //else
+                //    printTrail.setText(newTrail.toString());
+                //xText.setText("X: " + Double.toString(location.getLatitude()));
+                //yText.setText("Y: " + Double.toString(location.getLongitude()));
+                Log.i("loc:", "lat: " + location.getLatitude() +" long: " + location.getLongitude() + "alt: " + location.getAltitude() + "acc: " +location.getAccuracy());
+
+                //architectView.setLocation(40.5974, -75.5105, 8.0 );
+                architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy());
             }
 
             @Override
@@ -194,6 +198,8 @@ public class SimpleAR extends AppCompatActivity {
              * an ArchitectWorldLoadedListener can be registered.
              */
             this.architectView.load("app/src/main/assets/index.html");
+            this.architectView.load("index.html");
+
         } catch (IOException e) {
             Log.e(TAG, "Exception while loading arExperience ");
         }
@@ -231,13 +237,15 @@ public class SimpleAR extends AppCompatActivity {
         this.architectView.onPostCreate();
         try {
             this.architectView.load("index.html");
+            //architectView.setLocation(40.5974, -75.5105, 8.0 );
+
         }
             catch (IOException e) {
         }
 
         //this.architectView.callJavascript("loadLogin()");
         //this.architectView.callJavascript("loadWelcome()");
-        this.architectView.callJavascript("this.loadPoisFromJsonData");
+        //this.architectView.callJavascript("loadPoisFromJsonDataFn()");
     }
 
     public void startRecording(View view) {
