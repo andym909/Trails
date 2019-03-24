@@ -17,28 +17,43 @@ var World = {
         World.markerDrawableIdle = new AR.ImageResource("BORGE.png", {
             onError: World.onError
         });
-
+        var coords = poiData.points;
         /*
             For creating the marker a new object AR.GeoObject will be created at the specified geolocation. An
             AR.GeoObject connects one or more AR.GeoLocations with multiple AR.Drawables. The AR.Drawables can be
             defined for multiple targets. A target can be the camera, the radar or a direction indicator. Both the
             radar and direction indicators will be covered in more detail in later examples.
         */
-        var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
-        var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 2.5, {
-            zOrder: 0,
-            opacity: 1.0
-        });
+        var i = 0;
+        for (i=0; i<coords.length; i++) {
+            var markerLocation = new AR.GeoLocation(coords[i].latitude, coords[i].longitude, 100);
+            var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 2.5, {
+                zOrder: 0,
+                opacity: 1.0
+            });
 
-        /* Create GeoObject. */
-        var markerObject = new AR.GeoObject(markerLocation, {
-            drawables: {
-                cam: [markerImageDrawableIdle]
-            }
-        });
+            /* Create GeoObject. */
+            var markerObject = new AR.GeoObject(markerLocation, {
+                drawables: {
+                    cam: [markerImageDrawableIdle]
+                }
+             });
+        }
+//        var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
+//        var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 2.5, {
+//            zOrder: 0,
+//            opacity: 1.0
+//        });
+//
+//        /* Create GeoObject. */
+//        var markerObject = new AR.GeoObject(markerLocation, {
+//            drawables: {
+//                cam: [markerImageDrawableIdle]
+//            }
+//        });
 
         /* Updates status message as a user feedback that everything was loaded properly. */
-        World.updateStatusMessage('1 place loaded');
+        World.updateStatusMessage(i + " places loaded");
     },
 
     /* Updates status message shown in small "i"-button aligned bottom center. */
@@ -65,14 +80,14 @@ var World = {
         */
         if (!World.initiallyLoadedData) {
             /* Creates a poi object with a random location near the user's location. */
-            var poiData = {
-                "id": 1,
-                "longitude": (lon + (Math.random() / 5 - 0.1)),
-                "latitude": (lat + (Math.random() / 5 - 0.1)),
-                "altitude": 100.0
-            };
+//            var poiData = {
+//                "id": [1, 2],
+//                "longitude": [-75.5105456, -75.5100843],
+//                "latitude": [40.5972745, 40.5974252],
+//                "altitude": [100.0, 100.0]
+//            };
 
-            World.loadPoisFromJsonData(poiData);
+            //World.loadPoisFromJsonData(poiData);
             World.initiallyLoadedData = true;
         }
     },
@@ -81,6 +96,10 @@ var World = {
         alert(error)
     }
 };
+
+var startstop = function() {
+
+}
 
 /*
     Set a custom function where location changes are forwarded to. There is also a possibility to set

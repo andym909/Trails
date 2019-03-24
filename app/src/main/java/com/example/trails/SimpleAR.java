@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
 import com.wikitude.tools.location.LocationService;
@@ -25,6 +26,8 @@ import java.io.IOException;
 public class SimpleAR extends AppCompatActivity {
 
     static final String TAG = SimpleAR.class.getSimpleName();
+
+    static final Gson g = new Gson();
 
     private ArchitectView architectView; // = new ArchitectView(SimpleAR.this.getApplicationContext());
 
@@ -91,13 +94,13 @@ public class SimpleAR extends AppCompatActivity {
             loadArchitectView();
         }
 
-        double x;
-        double y;
-
-        final TextView xText = findViewById(R.id.xText);
-        final TextView yText = findViewById(R.id.yText);
-        final TextView printTrail = findViewById(R.id.print_trail);
-        String coords;
+//        double x;
+//        double y;
+//
+//        final TextView xText = findViewById(R.id.xText);
+//        final TextView yText = findViewById(R.id.yText);
+//        final TextView printTrail = findViewById(R.id.print_trail);
+//        String coords;
 
 
         //make location manager
@@ -116,13 +119,15 @@ public class SimpleAR extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 //if(recording)
-                //    newTrail.addNode(location.getLongitude(), location.getLatitude());
+                newTrail.addNode(location.getLongitude(), location.getLatitude());
                 //else
                 //    printTrail.setText(newTrail.toString());
                 //xText.setText("X: " + Double.toString(location.getLatitude()));
                 //yText.setText("Y: " + Double.toString(location.getLongitude()));
                 Log.i("loc:", "lat: " + location.getLatitude() +" long: " + location.getLongitude() + "alt: " + location.getAltitude() + "acc: " +location.getAccuracy());
 
+                String json = g.toJson(newTrail);
+                architectView.callJavascript("World.loadPoisFromJsonData(" + json + ")");
                 //architectView.setLocation(40.5974, -75.5105, 8.0 );
                 architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy());
             }
@@ -143,7 +148,7 @@ public class SimpleAR extends AppCompatActivity {
             }
         };
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+                LocationManager.GPS_PROVIDER, 5000, 3, locationListener);
     }
 
     @Override
