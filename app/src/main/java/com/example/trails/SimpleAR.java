@@ -143,7 +143,7 @@ public class SimpleAR extends AppCompatActivity {
             }
         };
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+                LocationManager.GPS_PROVIDER, 5000, 3, locationListener);
     }
 
     @Override

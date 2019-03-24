@@ -6,6 +6,8 @@ var World = {
     /* pOI-Marker asset. */
     markerDrawableIdle: null,
 
+    counter: 0,
+
     /* Called to inject new POI data. */
     loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
 
@@ -25,7 +27,7 @@ var World = {
             radar and direction indicators will be covered in more detail in later examples.
         */
         var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
-        var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 2.5, {
+        var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 20, {
             zOrder: 0,
             opacity: 1.0
         });
@@ -67,13 +69,14 @@ var World = {
             /* Creates a poi object with a random location near the user's location. */
             var poiData = {
                 "id": 1,
-                "longitude": (lon + (Math.random() / 5 - 0.1)),
-                "latitude": (lat + (Math.random() / 5 - 0.1)),
+                "longitude": 40.5971978,
+                "latitude": -75.5111743,
                 "altitude": 100.0
             };
-
+            counter++;
             World.loadPoisFromJsonData(poiData);
             World.initiallyLoadedData = true;
+            World.updateStatusMessage(counter + ' places loaded');
         }
     },
 
