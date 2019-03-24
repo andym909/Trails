@@ -31,6 +31,11 @@ var World = {
                 zOrder: 0,
                 opacity: 1.0
             });
+//        var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
+//        var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 20, {
+//            zOrder: 0,
+//            opacity: 1.0
+//        });
 
             /* Create GeoObject. */
             var markerObject = new AR.GeoObject(markerLocation, {
@@ -88,7 +93,16 @@ var World = {
 //            };
 
             //World.loadPoisFromJsonData(poiData);
-            World.initiallyLoadedData = true;
+//            var poiData = {
+//                "id": 1,
+//                "longitude": 40.5971978,
+//                "latitude": -75.5111743,
+//                "altitude": 100.0
+//            };
+//            counter++;
+//            World.loadPoisFromJsonData(poiData);
+//            World.initiallyLoadedData = true;
+//            World.updateStatusMessage(counter + ' places loaded');
         }
     },
 
@@ -97,9 +111,6 @@ var World = {
     }
 };
 
-var startstop = function() {
-
-}
 
 /*
     Set a custom function where location changes are forwarded to. There is also a possibility to set
