@@ -119,7 +119,7 @@ public class SimpleAR extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 //if(recording)
-                newTrail.addNode(location.getLongitude(), location.getLatitude());
+                newTrail.addNode(location.getLongitude(), location.getLatitude(), location.getAltitude());
                 //else
                 //    printTrail.setText(newTrail.toString());
                 //xText.setText("X: " + Double.toString(location.getLatitude()));

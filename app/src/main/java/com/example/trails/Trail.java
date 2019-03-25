@@ -5,8 +5,8 @@ public class Trail {
 
     public ArrayList<Node> points = new ArrayList<Node>();
 
-    public void addNode(double lon, double lat) {
-        Node n = new Node(lon, lat);
+    public void addNode(double lon, double lat, double alt) {
+        Node n = new Node(lon, lat, alt);
         points.add(n);
     }
 
@@ -32,6 +32,7 @@ public class Trail {
             n = points.get(i);
             str += "lat"+i+": "+n.latitude+"\n";
             str += "long"+i+": "+n.longitude+"\n";
+            str += "alt"+i+": "+n.altitude+"\n";
         }
         return str;
     }
@@ -42,12 +43,14 @@ public class Trail {
         Timestamp time;
         double longitude;
         double latitude;
+        double altitude;
         boolean flagged;
         String message;
 
-        public Node(double lon, double lat) {
+        public Node(double lon, double lat, double alt) {
             this.longitude = lon;
             this.latitude = lat;
+            this.altitude = alt;
             flagged = false;
             time = new Timestamp(System.currentTimeMillis());
             message = "";

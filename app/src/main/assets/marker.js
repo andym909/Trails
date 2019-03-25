@@ -26,7 +26,7 @@ var World = {
         */
         var i = 0;
         for (i=0; i<coords.length; i++) {
-            var markerLocation = new AR.GeoLocation(coords[i].latitude, coords[i].longitude, 100);
+            var markerLocation = new AR.GeoLocation(coords[i].latitude, coords[i].longitude, coords[i].altitude);
             var markerImageDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 2.5, {
                 zOrder: 0,
                 opacity: 1.0
