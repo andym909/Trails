@@ -22,20 +22,11 @@
 
     <include layout="@layout/content_view_trail" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/searchButton"
         style="@android:style/Widget.Button"
         android:layout_width="169dp"
         android:layout_height="72dp"
-        android:layout_alignStart="@+id/null"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="141dp"
