@@ -19,4 +19,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SimpleAR.class);
         startActivity(intent);
     }
+
+    public void openCreateTrail(View view) {
+        Intent intent = new Intent(this, CreateTrail.class);
+        startActivity(intent);
+    }
+
+    public void openViewTrail(View view) {
+        Intent intent = new Intent(this, ViewTrail.class);
+        startActivity(intent);
+    }
 }

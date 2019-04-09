@@ -35,6 +35,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ViewTrail"
+            android:label="@string/title_activity_view_trail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".CreateTrail"
+            android:label="@string/title_activity_create_trail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ShowCoordActivity"
             android:label="@string/title_activity_show_coord"
             android:parentActivityName=".MainActivity"
@@ -45,9 +53,9 @@
         </activity>
         <activity
             android:name=".SimpleAR"
-            android:parentActivityName=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
