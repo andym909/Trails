@@ -1,4 +1,11 @@
 package com.example.trails;
+
+/*
+    This class creates a Trail by creating an ArrayList
+    of Nodes. Each node contains location data for that
+    particular point in the trail.
+*/
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 public class Trail {

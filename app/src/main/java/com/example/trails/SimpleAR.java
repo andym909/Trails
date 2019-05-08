@@ -1,5 +1,8 @@
 package com.example.trails;
-
+/*
+    This activity is where Wikitude is opened and where
+    the augmented reality experience takes place.
+*/
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;

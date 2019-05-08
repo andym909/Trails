@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--The manifest file controls the application by obtaining necessary permissions-->
+<!--and properly sets up the activities, while also defining which activity is the default.-->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.trails">
 

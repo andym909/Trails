@@ -1,5 +1,11 @@
 package com.example.trails;
 
+/*
+    This was an activity used to test our Trail class by printing
+    the coordinate trail to screen.
+    It is not used in the final functionality of the application.
+ */
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;

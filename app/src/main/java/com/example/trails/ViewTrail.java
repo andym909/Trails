@@ -1,5 +1,10 @@
 package com.example.trails;
 
+/*
+    The activity would allow users to open a menu to search trails
+    when this functionality is implemented in the future.
+*/
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;

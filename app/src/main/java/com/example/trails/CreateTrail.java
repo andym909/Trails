@@ -1,5 +1,11 @@
 package com.example.trails;
 
+/*
+    This activity allows a user to create a new trail
+    by implementing buttons that trigger recording of the
+    user's GPS path.
+*/
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;

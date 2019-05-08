@@ -1,12 +1,15 @@
 package com.example.trails;
 
+/*  This is the default activity that opens
+    when a user opens the application.
+*/
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 
-//github commit testing, delete after
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -30,3 +33,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
+
